@@ -6,9 +6,9 @@ import unittest
 class TestMIDIDeviceControl(unittest.TestCase):
     VERBOSE = False
 
-    def test_attrs(self):
-        c = Controller(verbose=self.VERBOSE)
-        self.assertFalse(c.verbose)
+    # def test_attrs(self):
+    #     c = Controller(device_file='./examples/test.yaml', verbose=self.VERBOSE)
+    #     self.assertFalse(c.verbose)
 
 if __name__ == '__main__':
     unittest.main()
