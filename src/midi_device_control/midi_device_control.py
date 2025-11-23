@@ -8,10 +8,16 @@ import yaml # pip install pyyaml
 class Controller:
     def __init__(
         self,
-        outport=None,
+        device_file=None,
         verbose=False,
     ):
-        self.outport = outport
+        self.device_file = device_file
+        with open(self.device_file, 'r') as f:
+            self.data = yaml.safe_load(f)
+            self.inport_name = self.data['controller']
+            self.outport_name = self.data['device']
+        self.inport = mido.open_input(self.inport_name)
+        self.outport = mido.open_input(self.outport_name)
         self.verbose = verbose
 
     # https://mido.readthedocs.io/en/latest/message_types.html
@@ -84,3 +90,14 @@ class Controller:
             return target_min  # Or raise an error, depending on desired behavior
         scaled_value = ((value - original_min) * (target_max - target_min)) / (original_max - original_min) + target_min
         return round(scaled_value)
+
+    def control(self):
+        with self.inport:
+            print('Listening to:', self.inport.name)
+            with self.outport:
+                print('Sending to:', self.outport.name)
+                for msg in self.inport:
+                    if msg.type == 'clock':
+                        continue
+                    print(f"In: {msg}")
+                    self.dispatch(msg, self.data)
