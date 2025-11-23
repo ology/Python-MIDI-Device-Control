@@ -1,7 +1,4 @@
 import mido
-import os
-import re
-import sys
 import time
 import yaml # pip install pyyaml
 
