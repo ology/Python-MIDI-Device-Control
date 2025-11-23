@@ -43,6 +43,10 @@ messages:
         target: 16 # this CC changes with the pitchwheel
 ```
 
+The `controller` and `device` must be on as MIDI ports. And these **must** be named exactly as they appear to the system.
+
+Please see `mido.get_output_names()` and `mido.get_input_names()` for these known MIDI port names.
+
 ## Example:
 ```python
 from midi_device_control import Controller
