@@ -13,8 +13,12 @@ class Controller:
             self.data = yaml.safe_load(f)
             self.inport_name = self.data['controller']
             self.outport_name = self.data['device']
-        self.inport = mido.open_input(self.inport_name)
-        self.outport = mido.open_input(self.outport_name)
+            try:
+                self.inport = mido.open_input(self.inport_name)
+                self.outport = mido.open_output(self.outport_name)
+            except IOError as e:
+                print(f"Error opening ports: {e}")
+                exit()
         self.verbose = verbose
 
     # https://mido.readthedocs.io/en/latest/message_types.html
@@ -65,12 +69,12 @@ class Controller:
                 elif m['type'] == 'control_change' and msg.control == m['control']:
                     self.send_to('control_change', patch=m['target'], data=msg.value)
                 elif m['type'] == 'pitchwheel' and m['cmd'] == 'control_change':
-                    scaled_result = self.scale_number(msg.pitch, -8192, 8192, 0, 127)
+                    scaled_result = self._scale_number(msg.pitch, -8192, 8192, 0, 127)
                     self.send_to('control_change', patch=m['target'], data=scaled_result)
                 elif m['type'] == 'pitchwheel':
                     self.send_to('pitchwheel', data=msg.pitch)
 
-    def _scale_number(value, original_min, original_max, target_min, target_max):
+    def _scale_number(self, value, original_min, original_max, target_min, target_max):
         """
         Scales a number from one range to another as an integer.
         Args:
@@ -89,12 +93,17 @@ class Controller:
         return round(scaled_value)
 
     def control(self):
-        with self.inport:
-            print('Listening to:', self.inport.name)
-            with self.outport:
-                print('Sending to:', self.outport.name)
-                for msg in self.inport:
-                    if msg.type == 'clock':
-                        continue
-                    print(f"In: {msg}")
-                    self.dispatch(msg, self.data)
+        try:
+            with self.inport:
+                print('Listening to:', self.inport.name)
+                with self.outport:
+                    print('Sending to:', self.outport.name)
+                    for msg in self.inport:
+                        if msg.type == 'clock':
+                            continue
+                        print(f"In: {msg}")
+                        self.dispatch(msg, self.data)
+        except KeyboardInterrupt:
+            print('Stopping MIDI I/O.')
+        except Exception as e:
+            print(f"ERROR: {e}")

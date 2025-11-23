@@ -14,10 +14,5 @@ if __name__ == "__main__":
         print(device_file, 'does not exist')
         sys.exit()
 
-    try:
-        c = Controller(device_file=device_file)
-        c.control()
-    except KeyboardInterrupt:
-        print('Stopping MIDI I/O.')
-    except Exception as e:
-        print(f"ERROR: {e}")
+    c = Controller(device_file=device_file)
+    c.control()
