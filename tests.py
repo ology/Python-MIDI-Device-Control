@@ -6,7 +6,7 @@ import unittest
 class TestMIDIDeviceControl(unittest.TestCase):
     VERBOSE = False
 
-    def test_attrs(self):
+    def test_control(self):
         pass
         # c = Controller(device_file='./examples/test.yaml', verbose=self.VERBOSE)
         # self.assertFalse(c.verbose)
