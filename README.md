@@ -35,9 +35,10 @@ messages:
         control: 1 # the modwheel does the controlling here
         cmd: control_change
         target: 15
+        data: 64 # the value to set for CC# 15
     - type: pitchwheel
         cmd: control_change
-        target: 16
+        target: 16 # this CC changes with the pitchwheel
 ```
 
 ## Example:
