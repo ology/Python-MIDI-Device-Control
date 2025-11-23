@@ -1,6 +1,6 @@
 import os
 import sys
-import mido
+import mido # also pip install python-rtmidi
 import time
 import yaml # pip install pyyaml
 
