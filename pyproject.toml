@@ -50,9 +50,9 @@ dynamic = ["version"]
 # These URLs are displayed in a sidebar on PyPI. You don't have to have them,
 # but they can help people learn more about your project. You can include as
 # many named URLs as you want.  They can be any URL, not just to GitHub.
-Homepage = "https://github.com/ology/Python-Music-Bassline-Generator"
-Repository = "https://github.com/ology/Python-Music-Bassline-Generator.git"
-Issues = "https://github.com/ology/Python-Music-Bassline-Generator/issues"
+Homepage = "https://github.com/ology/Python-MIDI-Device-Control"
+Repository = "https://github.com/ology/Python-MIDI-Device-Control.git"
+Issues = "https://github.com/ology/Python-MIDI-Device-Control/issues"
 
 [project.scripts]
 # COMMANDS: These are commands you are installing.  Omit this section if you
