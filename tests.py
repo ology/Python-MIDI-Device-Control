@@ -7,9 +7,8 @@ class TestMIDIDeviceControl(unittest.TestCase):
     VERBOSE = False
 
     def test_attrs(self):
-        obj = Controller(verbose=self.VERBOSE)
-        # self.assertEqual(obj.octave, 1)
-        # self.assertTrue(callable(obj.scale_fn))
+        c = Controller(verbose=self.VERBOSE)
+        self.assertFalse(c.verbose)
 
 if __name__ == '__main__':
     unittest.main()
