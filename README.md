@@ -18,9 +18,11 @@ The configuration file has four parts: The required MIDI `controller` and MIDI `
 
 `control` is the MIDI CC# control change number that is sensed by the controller.
 
-`target` is the MIDI CC# control change number that is changed on the controlled MIDI device.
+`target` (optional) is the MIDI CC# control change number that is changed on the controlled MIDI device.
 
-`data` is the value to be changed given the above `target`.
+`data` (optional) is the value to be changed given the above `target`.
+
+One of `note` or `control` must be given for `note_on` or `control_change` types.
 
 ```yaml
 controller: 'Arturia Keyboard'
