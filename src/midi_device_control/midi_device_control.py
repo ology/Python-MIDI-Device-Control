@@ -1,3 +1,5 @@
+import os
+import sys
 import mido
 import time
 import yaml # pip install pyyaml
@@ -8,6 +10,10 @@ class Controller:
         device_file=None,
         verbose=False,
     ):
+        if not os.path.exists(device_file):
+            print(device_file, 'does not exist')
+            sys.exit()
+
         self.device_file = device_file
         with open(self.device_file, 'r') as f:
             self.data = yaml.safe_load(f)

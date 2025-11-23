@@ -1,5 +1,3 @@
-import os
-import sys
 try:
     import sys
     sys.path.append('./src')
@@ -9,10 +7,5 @@ except ImportError:
 
 if __name__ == "__main__":
     device_file = sys.argv[1] if len(sys.argv) > 1 else sys.argv[0]
-
-    if not os.path.exists(device_file):
-        print(device_file, 'does not exist')
-        sys.exit()
-
     c = Controller(device_file=device_file)
     c.control()
