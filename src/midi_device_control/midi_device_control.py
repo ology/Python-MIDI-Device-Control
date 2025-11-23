@@ -48,24 +48,24 @@ class Controller:
             self.outport.send(msg)
 
     # data arg keys: type (required), cmd (required), note, control, target, data
-    def dispatch(self, port, msg, data):
+    def dispatch(self, msg, data):
         for m in data['messages']:
             if msg.type == m['type']:
                 if m['type'] == 'note_on' and m['cmd'] == 'control_change' and msg.note == m['note']:
-                    self.send_to(port, m['cmd'], patch=m['target'], data=m['data'])
+                    self.send_to(m['cmd'], patch=m['target'], data=m['data'])
                 elif m['type'] == 'note_on' and msg.note == m['note']:
-                    self.send_to(port, m['cmd'])
+                    self.send_to(m['cmd'])
                 elif m['type'] == 'control_change' and m['cmd'] == 'program_change' and msg.control == m['control']:
-                    self.send_to(port, 'program_change', patch=msg.value)
+                    self.send_to('program_change', patch=msg.value)
                 elif m['type'] == 'control_change' and msg.control == m['control'] and 'data' in m:
-                    self.send_to(port, 'control_change', patch=m['target'], data=m['data'])
+                    self.send_to('control_change', patch=m['target'], data=m['data'])
                 elif m['type'] == 'control_change' and msg.control == m['control']:
-                    self.send_to(port, 'control_change', patch=m['target'], data=msg.value)
+                    self.send_to('control_change', patch=m['target'], data=msg.value)
                 elif m['type'] == 'pitchwheel' and m['cmd'] == 'control_change':
                     scaled_result = self.scale_number(msg.pitch, -8192, 8192, 0, 127)
-                    self.send_to(port, 'control_change', patch=m['target'], data=scaled_result)
+                    self.send_to('control_change', patch=m['target'], data=scaled_result)
                 elif m['type'] == 'pitchwheel':
-                    self.send_to(port, 'pitchwheel', data=msg.pitch)
+                    self.send_to('pitchwheel', data=msg.pitch)
 
     def _scale_number(value, original_min, original_max, target_min, target_max):
         """
