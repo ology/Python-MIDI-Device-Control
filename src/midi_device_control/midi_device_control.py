@@ -75,27 +75,13 @@ class Controller:
                 elif m['type'] == 'control_change' and msg.control == m['control']:
                     self.send_to('control_change', patch=m['target'], data=msg.value)
                 elif m['type'] == 'pitchwheel' and m['cmd'] == 'control_change':
-                    scaled_result = self._scale_number(msg.pitch, -8192, 8192, 0, 127)
+                    scaled_result = self._scale_to_midi_cc(msg.pitch)
                     self.send_to('control_change', patch=m['target'], data=scaled_result)
                 elif m['type'] == 'pitchwheel':
                     self.send_to('pitchwheel', data=msg.pitch)
 
-    def _scale_number(self, value, original_min, original_max, target_min, target_max):
-        """
-        Scales a number from one range to another as an integer.
-        Args:
-            value: The number to be scaled.
-            original_min: minimum value of the original range
-            original_max: maximum value of the original range
-            target_min: minimum value of the target range
-            target_max: maximum value of the target range
-        Returns:
-            float: The integer scaled number in the target range
-        """
-        if original_max == original_min:
-            # Handle the case where the original range is a single point
-            return target_min  # Or raise an error, depending on desired behavior
-        scaled_value = ((value - original_min) * (target_max - target_min)) / (original_max - original_min) + target_min
+    def _scale_to_midi_cc(self, value):
+        scaled_value = ((value + 8192) * 127) / 16384
         return int(round(scaled_value, ndigits=None))
 
     def control(self):
