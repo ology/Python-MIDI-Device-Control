@@ -96,7 +96,7 @@ class Controller:
             # Handle the case where the original range is a single point
             return target_min  # Or raise an error, depending on desired behavior
         scaled_value = ((value - original_min) * (target_max - target_min)) / (original_max - original_min) + target_min
-        return int(round(scaled_value, ndigits=0))
+        return int(round(scaled_value, ndigits=None))
 
     def control(self):
         try:
